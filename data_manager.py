@@ -1,7 +1,14 @@
 #!/usr/bin/local/python3
 
 import sqlite3
-from txt_learn import abs_path, DATA_FOLDER, DATABASE_DEST, MODEL_DEST, DATAFRAME_DEST, wrap_str
+
+DATA_FOLDER = 'data'
+def abs_path(filename): return '%s/%s' % (DATA_FOLDER, filename)
+DATAFRAME_DEST = 'dataframe.pkl'
+MODEL_DEST = 'model.pkl'
+DATABASE_DEST = 'english-text.db'
+
+from txt_learn import wrap_str
 
 with sqlite3.connect(abs_path(DATABASE_DEST)) as conn:
 	# Managing the Databse

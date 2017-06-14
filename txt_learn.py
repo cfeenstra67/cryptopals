@@ -3,13 +3,8 @@
 This module assumes the existance of a pickled file containing a pandas dataframe
 at the DATFRAME_DEST.  To generate this file, use the data_generator model
 """
-DATA_FOLDER = 'data'
-def abs_path(filename): return '%s/%s' % (DATA_FOLDER, filename)
-DATAFRAME_DEST = 'dataframe.pkl'
-MODEL_DEST = 'model.pkl'
-DATABASE_DEST = 'english-text.db'
 
-from data_manager import *
+from data_manager import DATAFRAME_DEST, DATABASE_DEST, MODEL_DEST, abs_path
 import pickle
 import pandas as pd
 import numpy as np
@@ -111,8 +106,17 @@ if __name__ == '__main__':
 	parser.add_argument('-t', '--test', action='store_true', help='test model with trained data')
 	parser.add_argument('-i', '--interactive', action='store_true', help='open shell which allows you to predict probabilities of strings being English text')
 	parser.add_argument('-r', '--retrieve-model', action='store_true', help='instead of training model using pickled dataframe, simply retrieve the currently saved model.')
-	args = parser.parse_args()
 
+	gen_def_arg='T'
+	parser.add_argument('-g', '--gen-data', nargs='?', default=gen_def_arg, help='generates data before program executes using data_generator.py.  Takes a string of one-letter command line arguments w/o hyphens followed by commas to pass to data_generator. Ex: -g q,c')
+	args = parser.parse_args()
+	if args.gen_data:
+		file_name = 'data_generator.py'
+		if args.gen_data != gen_def_arg:
+			import subprocess
+			g_args = ['-%s' % arg for arg in args.gen_data.split(',') if arg]
+			g_argstring = ' '.join(g_args)
+			subprocess.call('python3 %s %s' % (file_name, g_argstring), shell=True)
 	if args.retrieve_model: mod = retrieve_model()
 	else: mod = create_model(X, y) 
 	if args.test: run_test(X, y, mod)
