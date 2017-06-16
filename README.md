@@ -1,0 +1,3 @@
+These are Python 3 solutions to the cryptopals programming challenges.  I will update as I complete more of the challenges.
+
+NOTE: many of the solutions involve the use of a model I developed using scikit-learn.  The file model.pkl contains this, however new ones can be generated using the code in my txt_learn repository (I had originally developed the code in the txt_learn repository as part of this project, but seeing as this code only uses the generated model decided to split the projects up).
