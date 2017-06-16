@@ -272,12 +272,7 @@ def detect_AES(*strings, chunks=None):
 		for a, b in combinations(blocks, 2):
 			if a == b: same += 1
 		return same
-	for ind, string in enumerate(strings):
-		s = sames(string, chunks)
-		ks, d = [*distances(string, chunks, [dl])][0]
-		vals.append((ind, s, d))
-	ss, sd = m_gen(1, 2, fn=lambda n: keysum(vals, lambda x: x[n]))
-	vals = [(ind, (s / ss + d / sd) / 2) for ind, s, d in vals]
+	vals = [(ind, sames(string, chunks)) for ind, string in enumerate(strings)]
 	return max(vals, key=lambda x: x[1])
 
 
